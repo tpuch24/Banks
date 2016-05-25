@@ -8,7 +8,7 @@ import java.util.List;
 public class Account {
 
 	protected int id;
-	protected double solde;
+	protected double balance;
 	protected Customer customer;
 	
 	public Account() {
@@ -18,10 +18,11 @@ public class Account {
 	public Account(int id, double solde, Customer customer) {
 		super();
 		this.id = id;
-		this.solde = solde;
+		this.balance = solde;
 		this.customer = customer;
 	}
 
+	
 	protected int getId() {
 		return id;
 	}
@@ -30,12 +31,12 @@ public class Account {
 		this.id = id;
 	}
 
-	protected double getSolde() {
-		return solde;
+	protected double getBalance() {
+		return balance;
 	}
 
-	protected void setSolde(double solde) {
-		this.solde = solde;
+	protected void setBalance(double balance) {
+		this.balance = balance;
 	}
 
 	protected Customer getCustomer() {
@@ -47,5 +48,36 @@ public class Account {
 	}
 
 	//--------------------------
+	/**
+	 * setBalance for creditl or debit operations
+	 * @param amount
+	 * @param addAmount - true => credit / false => debit
+	 * @return
+	 */
+	public double setBalance(double amount, boolean addAmount){
+		if (amount <0) {
+    		throw new IllegalArgumentException("Invalid amount : " +
+					amount +" (must be positive)");
+    	}
+		this.setBalance(this.getBalance() + ((addAmount)? amount : amount*1.0));
+		
+		return this.getBalance();
+	}
 	
+	public void account(Customer customer){
+		
+	}
+	
+    public double debitAccount(double amount){
+    	return this.setBalance(amount, false);
+    }
+    public double creditAccount(double amount){
+    	return this.setBalance(amount, false);
+    }
+    
+    public String toString(){
+    	return "Number :" +this.getId()+" - Balance : "+this.getBalance()
+    	+" - Owner :"+ this.getCustomer().toString();
+    	
+    }
 }

@@ -1,3 +1,4 @@
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -21,6 +22,7 @@ public class Customer {
 		this.firstName = firstName;
 	}
 
+	//Getters & Setters
 	protected String getLastName() {
 		return lastName;
 	}
@@ -37,8 +39,34 @@ public class Customer {
 		this.lastName = lastName;
 	}
 	
-	protected String getCompletName() {
-		return lastName+" "+firstName;
+	protected List<Account> getAccounts() {
+		return accounts;
 	}
 
+	protected void setAccounts(List<Account> accounts) {
+		this.accounts = accounts;
+	}
+	//-----------------------------------------
+	// Others
+	//-----------------------------------------
+	public String getCompletName() {
+		return lastName+" "+firstName;
+	}
+	
+	public void addAccount(Account account){
+		this.accounts.add(account);
+	}
+	public void deleteAccount(Account account){
+		this.accounts.remove(account);
+	}
+
+	public String toString(){
+		String output = this.getCompletName();
+		for( Iterator<Account> i = this.accounts.iterator(); i.hasNext(); ) {
+			Account account = (Account) i.next();
+			output+=" - "+account.getId();
+		}
+				
+		return output;
+	}
 }

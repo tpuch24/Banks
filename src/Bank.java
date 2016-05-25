@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -9,44 +10,35 @@ import java.util.List;
 public class Bank {
 
 	protected String name;
-	protected int upperAccountNumber;
 	protected List<Account> accounts;
 	protected List<Customer> customers;
+	protected RefAccountNumber refAccountNumber ;
 	
-	
+	/**
+	 * Constructor by name 
+	 * @param bankName
+	 */
 	public Bank(String bankName) {
 		super();
 		
 		if (bankName.length() <= 2) {
 			throw new IllegalArgumentException("Invalid bank name : " +
-					bankName+" (At least 3 digits");
+					bankName+" (At least 3 digits)");
 			}
 		this.name = bankName;
-		this.upperAccountNumber = 0;
 		this.accounts = new ArrayList<Account>();
 		this.customers = new ArrayList<Customer>();
+		this.refAccountNumber = RefAccountNumber.getInstance();
 	}
 
-
+	//Getters & Setters
 	protected String getName() {
 		return name;
 	}
 
-
 	protected void setName(String name) {
 		this.name = name;
 	}
-
-
-	protected int getUpperAccountNumber() {
-		return upperAccountNumber;
-	}
-
-
-	protected void setUpperAccountNumber(int upperAccountNumber) {
-		this.upperAccountNumber = upperAccountNumber;
-	}
-
 
 	protected List<Account> getAccounts() {
 		return accounts;
@@ -68,10 +60,111 @@ public class Bank {
 	}
 	
 	//-----------------------------------
-	public Customer getCustomer(String firstName, String lasttName){
-		
+	//Other Methods
+	//-----------------------------------
+	
+	/**
+	 *  Get/ Found customer in customers list bank's by name
+	 * @param lastName
+	 * @param firstName
+	 * @return
+	 */
+	public Customer getCustomer(String lastName, String firstName){
+	
+		for( Iterator<Customer> i = this.customers.iterator(); i.hasNext(); ) {
+			Customer customer = (Customer) i.next();
+			if ((customer.getFirstName()==firstName)&& (customer.getLastName()==lastName)){
+				return customer;
+			}
+		}
+		return null;
 	}
 	
+	/**
+	 * Get/ Found account in accounts bank's list by id
+	 * @param refAccount
+	 * @return
+	 */
+	public Account getAccount(int refAccount){
+		
+		for( Iterator<Account> i = this.accounts.iterator(); i.hasNext(); ) {
+			Account account = (Account) i.next();
+			if (account.getId()==refAccount){
+				return account;
+			}
+		}
+		return null;
+	}
+	/**
+	 * add in customers bank's list from existant customer
+	 * @param customer
+	 */
+	public void addNewCustomer(Customer customer){
+		this.customers.add(customer);
+	}
+	/**
+	 * add in customers bank's list from new customer by name
+	 * @param lastName
+	 * @param firstName
+	 */
+	public void addNewCustomer(String lastName, String firstName){
+		this.customers.add(new Customer(lastName, firstName));
+	}
+	/**
+	 * delete in customers bank's list by name
+	 * @param lastName
+	 * @param firstName
+	 */
+	public void deleteCustomer(String lastName, String firstName){
+		this.deleteCustomer(this.getCustomer(lastName, firstName));
+	}
+	/**
+	 * delete in customers bank's list by customer object
+	 * @param customer
+	 */
+	public void deleteCustomer(Customer customer){
+		this.customers.remove(customer);
+	}
+	/**
+	 * Make a new account by customer and initial value
+	 * @param customer
+	 * @param initialValue
+	 */
+	public void makeAccount(Customer customer, double initialValue){	
+		accounts.add(new Account(refAccountNumber.getNewId(), initialValue, customer));	
+	}
 
-
+	/**
+	 * 
+	 * @param lastName
+	 * @param firstName
+	 */
+	public void makeAccount(String lastName, String firstName ){	
+		makeAccount(new Customer(lastName, firstName),0.0);
+	}
+	/**
+	 * 
+	 * @param lastName
+	 * @param firstName
+	 * @param initialValue
+	 */
+	public void makeAccount(String lastName, String firstName, double initialValue ){	
+		makeAccount(new Customer(lastName, firstName),initialValue);
+	}
+	/**
+	 * Close an account in bank
+	 * @param account
+	 */
+	public void closeAccount(Account account){
+		this.accounts.remove(account);
+	}
+	
+	public void closeAccount(int refAccount){
+		this.accounts.remove(getAccount(refAccount));
+	}
+	
+	public String toString(){
+		return getName()+" - "+getCustomers().toString()+" - "+getAccounts().toString();
+	}
+	
 }
