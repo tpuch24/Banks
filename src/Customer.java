@@ -1,8 +1,15 @@
+import java.util.List;
 
+/**
+ * 
+ * @author Thierry
+ *
+ */
 public class Customer {
 	
 	protected String lastName;
 	protected String firstName;
+	protected List<Account> accounts;
 
 	public Customer() {
 		super();

@@ -54,6 +54,5 @@ public class CustomerTest {
 		
 		assertEquals(COMPLET_NAME_TEST_STRING, otherCustomer.getCompletName());
 	}
-	
 
 }
