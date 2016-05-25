@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,11 +11,7 @@ public class Customer {
 	
 	protected String lastName;
 	protected String firstName;
-	protected List<Account> accounts;
-
-	public Customer() {
-		super();
-	}
+	protected List<Account> accounts = new ArrayList<Account>();
 
 	public Customer(String lastName, String firstName) {
 		super();

@@ -12,7 +12,6 @@ public class Bank {
 	protected String name;
 	protected List<Account> accounts;
 	protected List<Customer> customers;
-	protected RefAccountNumber refAccountNumber ;
 	
 	/**
 	 * Constructor by name 
@@ -28,7 +27,7 @@ public class Bank {
 		this.name = bankName;
 		this.accounts = new ArrayList<Account>();
 		this.customers = new ArrayList<Customer>();
-		this.refAccountNumber = RefAccountNumber.getInstance();
+		
 	}
 
 	//Getters & Setters
@@ -131,7 +130,7 @@ public class Bank {
 	 * @param initialValue
 	 */
 	public void makeAccount(Customer customer, double initialValue){	
-		accounts.add(new Account(refAccountNumber.getNewId(), initialValue, customer));	
+		accounts.add(new Account(initialValue, customer));	
 	}
 
 	/**
@@ -140,7 +139,7 @@ public class Bank {
 	 * @param firstName
 	 */
 	public void makeAccount(String lastName, String firstName ){	
-		makeAccount(new Customer(lastName, firstName),0.0);
+		makeAccount(lastName, firstName, 0.0 );
 	}
 	/**
 	 * 
@@ -149,7 +148,10 @@ public class Bank {
 	 * @param initialValue
 	 */
 	public void makeAccount(String lastName, String firstName, double initialValue ){	
-		makeAccount(new Customer(lastName, firstName),initialValue);
+		
+		Customer customer = this.getCustomer(lastName, firstName);
+		if (customer == null) customer = new Customer(lastName, firstName);
+		makeAccount(customer,initialValue);
 	}
 	/**
 	 * Close an account in bank

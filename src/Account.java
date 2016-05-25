@@ -11,17 +11,24 @@ public class Account {
 	protected double balance;
 	protected Customer customer;
 	
-	public Account() {
-		// TODO Auto-generated constructor stub
+	protected RefAccountNumber refAccountNumber ;
+	
+	
+	public Account(double balance, Customer customer) {
+		this.account(balance, customer);
 	}
-
-	public Account(int id, double solde, Customer customer) {
-		super();
-		this.id = id;
-		this.balance = solde;
+	public Account(Customer customer){
+		this.account(0.0, customer);	
+	}
+	
+	private void account(double balance, Customer customer) {
+		this.refAccountNumber = RefAccountNumber.getInstance();
+		this.id = refAccountNumber.getNewId();
+		this.balance = balance;
 		this.customer = customer;
+		
+		customer.addAccount(this);
 	}
-
 	
 	protected int getId() {
 		return id;
@@ -62,10 +69,6 @@ public class Account {
 		this.setBalance(this.getBalance() + ((addAmount)? amount : amount*1.0));
 		
 		return this.getBalance();
-	}
-	
-	public void account(Customer customer){
-		
 	}
 	
     public double debitAccount(double amount){

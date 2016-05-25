@@ -10,7 +10,6 @@
 	/** L'instance statique */
     private static RefAccountNumber instance;
 	
-    
     private RefAccountNumber() {
     }
     
